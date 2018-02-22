@@ -45,7 +45,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest', ['except' => 'logout']);
     }
 
     /**
@@ -54,14 +54,14 @@ class LoginController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function login(Request $request) {
-        // ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³
+        // ¥Ð¥ê¥Ç©`¥·¥ç¥ó
         $this->validate($request, [
             'email' => 'required|email|max:255',
             'password' => 'required|between:6,255',
             'remember' => 'boolean',
         ]);
 
-        // èªè¨¼å‡¦ç†
+        // ÕJÔ^„IÀí
         try {
             $this->userInterface = Sentinel::authenticate([
                 'email' => $request['email'],
@@ -72,11 +72,11 @@ class LoginController extends Controller
                 'resend_code' => $request['email']
             ])->withErrors([trans('sentinel.not_activation')]);
         } catch (ThrottlingException $throttling) {
-            return view('auth.login')->withErrors([trans('sentinel.login_throttling')."[ã‚ã¨".$throttling->getDelay()."ç§’]"]);
+            \Debugbar::info('noffff');
+            return view('auth.login')->withErrors([trans('sentinel.login_throttling')."[¤¢¤È".$throttling->getDelay()."Ãë]"]);
         }
 
         if (!$this->userInterface) {
-            // ã‚¨ãƒ©ãƒ¼
             return view('auth.login')->withErrors([trans('sentinel.login_failed')]);
         }
 

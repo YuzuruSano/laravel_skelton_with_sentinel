@@ -37,7 +37,6 @@ class MigrationCartalystSentinel extends Migration
             $table->boolean('completed')->default(0);
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
-
             $table->engine = 'InnoDB';
         });
 
@@ -101,7 +100,7 @@ class MigrationCartalystSentinel extends Migration
             $table->timestamp('last_login')->nullable();
             $table->string('name')->nullable();
             $table->timestamps();
-
+            $table->rememberToken();
             $table->engine = 'InnoDB';
             $table->unique('email');
         });

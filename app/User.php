@@ -2,19 +2,31 @@
 
 namespace App;
 
+use Illuminate\Notifications\Notifiable;
+use Cartalyst\Sentinel\Users\EloquentUser;
+
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+
 use Cartalyst\Sentinel\Permissions\PermissibleInterface;
 use Cartalyst\Sentinel\Permissions\PermissibleTrait;
 use Cartalyst\Sentinel\Persistences\PersistableInterface;
 use Cartalyst\Sentinel\Roles\RoleableInterface;
-use Cartalyst\Sentinel\Users\EloquentUser;
 use Cartalyst\Sentinel\Users\UserInterface;
-use Illuminate\Database\Eloquent\SoftDeletingTrait;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Joshwhatk\Cent\UserModel;
 
-class User extends EloquentUser implements RoleableInterface, PermissibleInterface, PersistableInterface, UserInterface
+
+class User extends UserModel implements
+    AuthenticatableContract,
+    AuthorizableContract,
+    CanResetPasswordContract, RoleableInterface, PermissibleInterface, PersistableInterface, UserInterface
 {
     use Notifiable;
+    use Authenticatable, Authorizable, CanResetPassword;
 
     /**
      * The attributes that are mass assignable.

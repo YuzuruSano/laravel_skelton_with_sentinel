@@ -26,12 +26,6 @@ Route::get('login', function() {return view('auth.login', [
     'info' => session('info')
 ])->withErrors(session('myerror'));})->name('login');
 Route::post('login', 'Auth\LoginController@login');
-
-/**
- * for logout
- */
-Route::get('logout', 'Sentinel\SentinelController@logout');
-
 /**
  * for registration
  */
@@ -52,5 +46,5 @@ Route::match(['get', 'post'], 'logout', 'Auth\LoginController@logout')->name('lo
  * for password reset
  */
 Route::get('password/reset/{email}/{code}/{password}', 'Sentinel\SentinelController@resetPassword');
-Route::get('password/reset', function() {return view('auth.passwords.reset', ['token'=>'']);});
+Route::get('password/reset', function() {return view('auth.passwords.reset', ['token'=>'']);})->name('password.request');
 Route::post('password/reset', 'Sentinel\SentinelController@sendResetPassword');
